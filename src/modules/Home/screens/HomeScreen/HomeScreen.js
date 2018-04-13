@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { getServiceRoutes } from '../../../../config/router/routes';
+import { getServiceLinks } from '../../utils/getServiceLinks';
 
 import ServicesSwitchboard from '../../components/ServicesSwitchboard';
 
@@ -10,7 +10,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <div>
-        <ServicesSwitchboard services={getServiceRoutes()} />
+        <ServicesSwitchboard services={getServiceLinks()} />
       </div>
     );
   }

@@ -10,7 +10,7 @@ export const routes = [{
 }, {
   title: 'Speed of Service',
   pathname: '/speedofservice',
-  private: true,
+  private: false,
   component: SpeedOfServiceScreen,
   isService: true,
   icon: 'SOS'
@@ -20,7 +20,3 @@ export const routes = [{
   private: false,
   component: LoginScreen,
 }];
-
-export const getServiceRoutes = () => {
-  return routes.filter(route => route.isService);
-}

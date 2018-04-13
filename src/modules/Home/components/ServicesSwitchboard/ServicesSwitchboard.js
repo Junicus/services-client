@@ -10,13 +10,7 @@ class ServicesSwitchboard extends Component {
 
   renderLinks = () => {
     return this.props.services.map(service => {
-      return <ServiceLink
-        key={service.pathname}
-        to={service.pathname}
-        title={service.title}
-        icon={service.icon}
-        imageUrl={service.imageUrl}
-      />
+      return <ServiceLink key={service.pathname} {...service} />
     })
   }
 
