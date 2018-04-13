@@ -10,7 +10,7 @@ export const routes = [{
 }, {
   title: 'Speed of Service',
   pathname: '/speedofservice',
-  private: false,
+  private: true,
   component: SpeedOfServiceScreen,
   isService: true,
   icon: 'SOS'
