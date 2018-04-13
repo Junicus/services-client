@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import PrivateRoute from './modules/Auth/components/PrivateRoute';
 
-import HomeScreen from './modules/Home/screens/HomeScreen';
-import SpeedOfServiceScreen from './modules/SpeedOfService/screens/SpeedOfServiceScreen';
-import LoginScreen from './modules/Auth/screens/LoginScreen';
+import { routes } from './config/router/routes';
+
+import './index.css';
 
 class App extends Component {
+  renderRouters = () => {
+    return routes.map(route => {
+      return route.private ?
+        <PrivateRoute key={route.pathname} exact path={route.pathname} component={route.component} /> :
+        <Route key={route.pathname} exact path={route.pathname} component={route.component} />
+    });
+  }
+
   render() {
     return (
       <div>
-        <div><Link to='/'>Home</Link><Link to='/speedofservice'>Speed of Service</Link></div>
-        <Route exact path='/' component={HomeScreen} />
-        <PrivateRoute exact path='/speedofservice' component={SpeedOfServiceScreen} />
-        <Route exact path='/login' component={LoginScreen} />
+        {
+          this.renderRouters()
+        }
       </div>
     );
   }

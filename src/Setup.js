@@ -6,7 +6,6 @@ import configureStore from './redux/configureStore';
 import App from './App';
 
 import { AuthProvider } from './modules/Auth/components/AuthProvider/AuthProvider';
-import { adalConfig } from './config/adalConfig';
 
 const history = createHistory();
 const store = configureStore(history);
