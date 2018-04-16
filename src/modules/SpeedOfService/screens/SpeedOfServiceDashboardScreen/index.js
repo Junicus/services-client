@@ -1,0 +1,2 @@
+import SpeedOfServiceDashboardScreen from './SpeedOfServiceDashbaordScreen';
+export default SpeedOfServiceDashboardScreen;

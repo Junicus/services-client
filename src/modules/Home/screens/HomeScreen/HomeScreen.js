@@ -1,23 +1,32 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { getServiceLinks } from '../../utils/getServiceLinks';
-
 import ServicesSwitchboard from '../../components/ServicesSwitchboard';
+import { hideSidebar } from '../../../UI/actions';
 
 class HomeScreen extends Component {
+  static propTypes = {
+    links: PropTypes.object.isRequired
+  }
+
   render() {
     return (
       <div>
-        <ServicesSwitchboard services={getServiceLinks()} />
+        <ServicesSwitchboard services={this.props.links.modules} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return {}
+  const { links } = state;
+  return { links }
 }
 
-export default withRouter(connect(mapStateToProps)(HomeScreen));
+const mapDispatchToProps = dispatch => {
+  dispatch(hideSidebar());
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeScreen));

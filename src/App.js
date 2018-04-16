@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import PrivateRoute from './modules/Auth/components/PrivateRoute';
+import Sidebar from './components/Sidebar';
 
 import { routes } from './config/router/routes';
-
-import './index.css';
 
 class App extends Component {
   renderRouters = () => {
     return routes.map(route => {
       return route.private ?
-        <PrivateRoute key={route.pathname} exact path={route.pathname} component={route.component} /> :
-        <Route key={route.pathname} exact path={route.pathname} component={route.component} />
+        <PrivateRoute key={route.path} {...route} /> :
+        <Route key={route.path} {...route} />
     });
   }
 
   render() {
     return (
-      <div>
-        {
-          this.renderRouters()
-        }
+      <div style={{ display: 'flex' }}>
+        <Sidebar />
+        <Switch>
+          {
+            this.renderRouters()
+          }
+        </Switch>
       </div>
     );
   }

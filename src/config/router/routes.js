@@ -4,19 +4,20 @@ import LoginScreen from '../../modules/Auth/screens/LoginScreen';
 
 export const routes = [{
   title: 'Home',
-  pathname: '/',
+  path: '/',
+  exact: true,
+  component: HomeScreen,
   private: false,
-  component: HomeScreen
 }, {
   title: 'Speed of Service',
-  pathname: '/speedofservice',
-  private: true,
+  path: '/speedofservice',
+  exact: false,
   component: SpeedOfServiceScreen,
-  isService: true,
-  icon: 'SOS'
+  private: false,
 }, {
   title: 'Login',
-  pathname: '/login',
-  private: false,
+  path: '/login',
+  exact: true,
   component: LoginScreen,
+  private: false,
 }];

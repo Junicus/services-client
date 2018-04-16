@@ -14,23 +14,26 @@ export const getDailySummary = (date) => {
     dispatch(fetchDialySummaries());
     fetch(`${BASE_API}/summaries?date=${date}`)
       .then(response => {
-        console.log(response);
-        if (response.ok)
+        if (response.ok) {
           return response.json();
-        dispatch(fetchDailySummariesFailure({
-          error: {
-            status: response.status,
-            description: response.statusText
-          }
-        }))
+        } else {
+          throw {
+            error: {
+              status: response.status,
+              description: response.statusText
+            }
+          };
+        }
       })
       .then(json => dispatch(fetchDailySummariesSuccess(json)))
       .catch(err => {
-        console.log(err);
+        if (err.error) {
+          return dispatch(fetchDailySummariesFailure(err));
+        }
         return dispatch(fetchDailySummariesFailure({
           error: {
             status: 500,
-            description: err
+            description: err.message
           }
         }))
       });
@@ -42,24 +45,28 @@ export const getDailyAverageTimes = (date) => {
     dispatch(fetchDailyAverageTimes());
     fetch(`${BASE_API}/averages?date=${date}`)
       .then(response => {
-        if (response.ok)
+        if (response.ok) {
           return response.json();
-        dispatch(fetchDailyAverageTimesFailure({
-          error: {
-            status: response.status,
-            description: response.statusText
-          }
-        }))
+        } else {
+          throw {
+            error: {
+              status: response.status,
+              description: response.statusText
+            }
+          };
+        }
       })
       .then(json => dispatch(fetchDailyAverageTimesSuccess(json)))
       .catch(err => {
-        console.log(err);
+        if (err.error) {
+          return dispatch(fetchDailyAverageTimesFailure(err));
+        }
         return dispatch(fetchDailyAverageTimesFailure({
           error: {
             status: 500,
-            description: err
+            description: err.message
           }
-        }))
+        }));
       });
   }
 };

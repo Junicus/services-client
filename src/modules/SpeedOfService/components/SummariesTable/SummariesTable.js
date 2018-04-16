@@ -1,4 +1,5 @@
 import React from 'react';
+import { Alert } from 'reactstrap';
 
 const SummariesTable = (props) => {
   if (props) {
@@ -7,7 +8,12 @@ const SummariesTable = (props) => {
       return <div>Loading...</div>
     }
     if (error) {
-      return <div>{JSON.stringify(error)}</div>
+      return (
+        <Alert color='danger'>
+          <h4>{error.status}</h4>
+          <p>{error.description}</p>
+        </Alert>
+      );
     }
     return (
       <div>Summaries Table</div>

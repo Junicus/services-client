@@ -1,55 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 
-import ScreenHeader from '../../../../components/ScreenHeader';
-import SummariesTable from '../../components/SummariesTable';
-import AveragesTable from '../../components/AveragesTable';
-import { getDailySummary, getDailyAverageTimes } from '../../actions';
+import SpeedOfServiceDashboardScreen from '../SpeedOfServiceDashboardScreen';
+import SpeedOfServiceReportsScreen from '../SpeedOfServiceReportsScreen';
+import { showSidebar, setModuleInfo } from '../../../UI/actions';
 
 class SpeedOfServiceScreen extends Component {
   static propTypes = {
-    speedOfService: PropTypes.object.isRequired,
-    getDailySummary: PropTypes.func.isRequired,
-    getDailyAverageTimes: PropTypes.func.isRequired
+    setModuleInfo: PropTypes.func.isRequired
   }
-
-  componentDidMount = async () => {
-    this.props.getDailySummary(Date.now());
-    this.props.getDailyAverageTimes(Date.now());
+  componentDidMount = () => {
+    this.props.setModuleInfo({
+      title: 'Speed of Service',
+      links: [
+        { to: '/speedofservice', title: 'Dashboard' },
+        { to: '/speedofservice/reports', title: 'Reports' }
+      ]
+    })
   }
 
   render() {
-    const { summaries, averages } = this.props;
     return (
-      <div>
-        <ScreenHeader title='Speed of Service' />
-        <section>
-          <header><h2>Summaries</h2></header>
-          <SummariesTable {...summaries} />
-        </section>
-        <section>
-          <header><h2>Averages</h2></header>
-          <AveragesTable {...averages} />
-        </section>
-      </div>
+      <Switch>
+        <Route exact path='/speedofservice' component={SpeedOfServiceDashboardScreen} />
+        <Route exact path='/speedofservice/reports' component={SpeedOfServiceReportsScreen} />
+      </Switch>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { speedOfService } = state;
-  return {
-    summaries: speedOfService.summaries,
-    averages: speedOfService.averages
-  };
+  return {};
 }
 
 const mapDispatchToProps = dispatch => {
+  dispatch(showSidebar());
   return {
-    getDailySummary: (date) => { dispatch(getDailySummary(date)); },
-    getDailyAverageTimes: (date) => { dispatch(getDailyAverageTimes(date)); }
-  }
+    setModuleInfo: (payload) => dispatch(setModuleInfo(payload))
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SpeedOfServiceScreen);
