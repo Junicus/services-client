@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { AuthContext } from '../../components/AuthProvider/AuthProvider';
+import { AuthContextAdal } from '../../components/AuthProviderAdal/AuthProviderAdal';
 
 class LoginScreen extends Component {
   render() {
     return (
-      <AuthContext.Consumer>
+      <AuthContextAdal.Consumer>
         {
           context => {
             if (context.isAuthenticated()) {
@@ -16,7 +16,7 @@ class LoginScreen extends Component {
             }
           }
         }
-      </AuthContext.Consumer>
+      </AuthContextAdal.Consumer>
     )
   }
 }

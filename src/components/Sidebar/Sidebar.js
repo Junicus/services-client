@@ -9,9 +9,9 @@ class Sidebar extends Component {
     const { module } = this.props.links;
     if (module) {
       return (
-        <React.Fragment>
-          <p>{module.title}</p>
-          <Nav vertical>
+        <div style={{ marginTop: 10, margin: 0 }} >
+          <p style={{ padding: 5, margin: 0, backgroundColor: 'SteelBlue', color: 'white' }}>{module.title}</p>
+          <Nav style={{ padding: 5, backgroundColor: 'LightSteelBlue' }} vertical>
             {
               module.links.map(link => (
                 <NavItem key={link.to}>
@@ -20,7 +20,7 @@ class Sidebar extends Component {
               ))
             }
           </Nav>
-        </React.Fragment>
+        </div>
       )
     } else {
       return null;
@@ -38,12 +38,12 @@ class Sidebar extends Component {
       ));
     if (renderedLinks.length) {
       return (
-        <React.Fragment>
-          <p>Modules</p>
-          <Nav vertical>
+        <div style={{ marginTop: 10, margin: 0 }} >
+          <p style={{ padding: 5, margin: 0, backgroundColor: 'SteelBlue', color: 'white' }}>Modules</p>
+          <Nav style={{ backgroundColor: 'LightSteelBlue' }} vertical>
             {renderedLinks}
           </Nav>
-        </React.Fragment>
+        </div>
       );
     } else {
       return null;
@@ -54,8 +54,8 @@ class Sidebar extends Component {
     const { ui, links } = this.props;
     if (ui.showSidebar) {
       return (
-        <div style={{ width: 200 }}>
-          <Nav vertical>
+        <div style={{ width: 200, margin: 15 }}>
+          <Nav style={{ padding: 5 }} vertical>
             <NavItem>
               <Link to={links.home.to}>{links.home.title}</Link>
             </NavItem>
@@ -66,7 +66,6 @@ class Sidebar extends Component {
           {
             this.renderModulesSection()
           }
-
         </div>
       );
     } else {

@@ -1,28 +1,40 @@
 import React from 'react';
 import { Alert } from 'reactstrap';
 
-const SummariesTable = (props) => {
-  if (props) {
-    const { isLoading, data, error } = props;
-    if (isLoading) {
-      return <div>Loading...</div>
-    }
-    if (error) {
-      return (
-        <Alert color='danger'>
+const SummariesTable = ({ isLoading, data, error }) => {
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <Alert style={{ width: 400 }} color='danger'>
           <h4>{error.status}</h4>
           <p>{error.description}</p>
         </Alert>
-      );
-    }
-    return (
-      <div>Summaries Table</div>
+      </div>
     );
-  } else {
-    return (
-      <div>Nothing</div>
-    )
   }
+
+  if (data.length) {
+    <div>Summaries Table with data</div>
+  }
+  return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
+      <Alert style={{ width: 400 }} color='success'>
+        <p>No Data</p>
+      </Alert>
+    </div>
+  );
 }
 
 export default SummariesTable;

@@ -27,6 +27,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   dispatch(hideSidebar());
+  return {}
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeScreen));

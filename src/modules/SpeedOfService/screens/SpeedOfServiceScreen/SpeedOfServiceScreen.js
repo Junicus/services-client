@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import SpeedOfServiceDashboardScreen from '../SpeedOfServiceDashboardScreen';
 import SpeedOfServiceReportsScreen from '../SpeedOfServiceReportsScreen';
 import { showSidebar, setModuleInfo } from '../../../UI/actions';
+import { AuthContextAdal } from '../../../Auth/components/AuthProviderAdal/AuthProviderAdal';
 
 class SpeedOfServiceScreen extends Component {
   static propTypes = {
@@ -23,10 +24,19 @@ class SpeedOfServiceScreen extends Component {
 
   render() {
     return (
-      <Switch>
-        <Route exact path='/speedofservice' component={SpeedOfServiceDashboardScreen} />
-        <Route exact path='/speedofservice/reports' component={SpeedOfServiceReportsScreen} />
-      </Switch>
+      <div style={{ margin: 15 }}>
+        <Switch>
+          <Route exact path='/speedofservice' component={SpeedOfServiceDashboardScreen} />
+          <Route exact path='/speedofservice/reports' component={SpeedOfServiceReportsScreen} />
+        </Switch>
+        <AuthContextAdal.Consumer>
+          {
+            ctx => {
+              ctx.acquireToken('speedOfService')
+            }
+          }
+        </AuthContextAdal.Consumer>
+      </div>
     );
   }
 }

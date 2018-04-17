@@ -1,9 +1,8 @@
-import { AUTH_SUCESS, AUTH_FAILURE } from './actionTypes';
+import {
+  ON_ACQUIRE_TOKEN
+} from './actionTypes';
 
-export const authSuccess = () => ({
-  type: AUTH_SUCESS
-});
-
-export const authFailure = () => ({
-  type: AUTH_FAILURE
+export const onAcquireToken = payload => ({
+  type: ON_ACQUIRE_TOKEN,
+  payload
 });

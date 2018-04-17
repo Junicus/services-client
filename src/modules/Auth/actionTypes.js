@@ -1,2 +1,1 @@
-export const AUTH_SUCESS = 'auth/SUCCESS';
-export const AUTH_FAILURE = 'auth/FAILURE';
+export const ON_ACQUIRE_TOKEN = 'auth/ON_ACQUIRE_TOKEN';

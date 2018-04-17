@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import configureStore from './redux/configureStore';
 import App from './App';
 
-import { AuthProvider } from './modules/Auth/components/AuthProvider/AuthProvider';
+import AuthProviderAdal from './modules/Auth/components/AuthProviderAdal/AuthProviderAdal';
 
 const history = createHistory();
 const store = configureStore(history);
@@ -14,11 +14,11 @@ class Setup extends Component {
   render() {
     return (
       <Provider store={store}>
-        <AuthProvider>
+        <AuthProviderAdal>
           <ConnectedRouter history={history}>
             <App />
           </ConnectedRouter>
-        </AuthProvider>
+        </AuthProviderAdal>
       </Provider>
     );
   }

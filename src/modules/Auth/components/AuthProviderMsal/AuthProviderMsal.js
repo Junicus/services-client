@@ -3,11 +3,14 @@ import { UserAgentApplication, Logger } from 'msal';
 
 const applicationConfig = {
   clientID: process.env.REACT_APP_AZURE_CLIENT_ID,
-  authority: 'https://login.microsoftonline.com/6c854deb-3b91-452d-9f42-93a8b22eca29',
-  graphScopes: [process.env.REACT_APP_AZURE_CLIENT_ID]
+  authority: process.env.REACT_APP_AUTHORITY,
+  graphScopes: [
+    process.env.REACT_APP_AZURE_CLIENT_ID,
+    
+  ]
 }
 
-export const AuthContext = React.createContext();
+export const AuthContextMsal = React.createContext();
 
 export class AuthProvider extends Component {
   constructor() {

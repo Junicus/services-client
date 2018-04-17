@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { AuthContext } from '../AuthProvider/AuthProvider';
+import { AuthContextAdal } from '../AuthProviderAdal/AuthProviderAdal';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
-    <AuthContext.Consumer>
+    <AuthContextAdal.Consumer>
       {
         context => {
           return <Route {...rest} render={
@@ -16,7 +16,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
           } />
         }
       }
-    </AuthContext.Consumer>
+    </AuthContextAdal.Consumer>
   );
 }
 

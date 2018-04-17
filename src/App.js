@@ -19,11 +19,13 @@ class App extends Component {
     return (
       <div style={{ display: 'flex' }}>
         <Sidebar />
-        <Switch>
-          {
-            this.renderRouters()
-          }
-        </Switch>
+        <div style={{ flexGrow: 1 }}>
+          <Switch>
+            {
+              this.renderRouters()
+            }
+          </Switch>
+        </div>
       </div>
     );
   }

@@ -7,12 +7,17 @@ import {
   FETCH_DAILYAVERAGETIMES_FAILURE
 } from './actionTypes';
 
-const BASE_API = 'http://localhost:3001/api/speedofservice';
+const BASE_API = 'http://localhost:3001/api/speedOfService';
 
 export const getDailySummary = (date) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const access_token = getState().auth.access_tokens.speedOfService;
     dispatch(fetchDialySummaries());
-    fetch(`${BASE_API}/summaries?date=${date}`)
+    fetch(`${BASE_API}/summaries?date=${date}`, {
+      method: 'GET', headers: {
+        'Authorization': `Bearer ${access_token}`,
+      }
+    })
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -41,9 +46,14 @@ export const getDailySummary = (date) => {
 };
 
 export const getDailyAverageTimes = (date) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const access_token = getState().auth.access_tokens.speedOfService;
     dispatch(fetchDailyAverageTimes());
-    fetch(`${BASE_API}/averages?date=${date}`)
+    fetch(`${BASE_API}/averages?date=${date}`, {
+      method: 'GET', headers: {
+        'Authorization': `Bearer ${access_token}`,
+      }
+    })
       .then(response => {
         if (response.ok) {
           return response.json();

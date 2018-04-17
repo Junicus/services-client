@@ -2,7 +2,9 @@ import {
   FETCH_DAILYSUMMARIES,
   FETCH_DAILYAVERAGETIMES,
   FETCH_DAILYSUMMARIES_FAILURE,
-  FETCH_DAILYAVERAGETIMES_FAILURE
+  FETCH_DAILYAVERAGETIMES_FAILURE,
+  FETCH_DAILYSUMMARIES_SUCCESS,
+  FETCH_DAILYAVERAGETIMES_SUCCESS
 } from "./actionTypes";
 
 const initialState = {
@@ -29,6 +31,20 @@ export const speedOfService = (state = initialState, action) => {
           error: null
         }
       };
+    case FETCH_DAILYSUMMARIES_SUCCESS:
+      {
+        const { payload } = action;
+        const { success, data } = payload;
+        return {
+          ...state,
+          summaries: {
+            ...state.summaries,
+            isLoading: false,
+            data: success ? data : [],
+            error: success ? null : data
+          }
+        }
+      }
     case FETCH_DAILYSUMMARIES_FAILURE:
       return {
         ...state,
@@ -48,6 +64,20 @@ export const speedOfService = (state = initialState, action) => {
           error: null
         }
       };
+    case FETCH_DAILYAVERAGETIMES_SUCCESS:
+      {
+        const { payload } = action;
+        const { success, data } = payload;
+        return {
+          ...state,
+          averages: {
+            ...state.averages,
+            isLoading: false,
+            data: success ? data : [],
+            error: success ? null : data
+          }
+        }
+      }
     case FETCH_DAILYAVERAGETIMES_FAILURE:
       return {
         ...state,

@@ -13,7 +13,7 @@ export const routes = [{
   path: '/speedofservice',
   exact: false,
   component: SpeedOfServiceScreen,
-  private: false,
+  private: true,
 }, {
   title: 'Login',
   path: '/login',

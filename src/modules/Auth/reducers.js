@@ -1,11 +1,21 @@
-//import { AUTH_SUCCESS, AUTH_FAILURE } from './actionTypes';
+import {
+  ON_ACQUIRE_TOKEN
+} from './actionTypes';
 
 const initialState = {
-  isAuthenticated: false
+  access_tokens: {},
 }
 
 export const auth = (state = initialState, action) => {
   switch (action.type) {
+    case ON_ACQUIRE_TOKEN:
+      return {
+        ...state,
+        access_tokens: {
+          ...state.access_tokens,
+          [action.payload.endpoint]: action.payload.token
+        }
+      }
     default:
       return state;
   }
