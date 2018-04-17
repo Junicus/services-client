@@ -18,7 +18,7 @@ class AuthProviderAdal extends Component {
     }
 
     this.adalConfig = {
-      clientId: process.env.CLIENT_ID,
+      clientId: process.env.REACT_APP_AZURE_CLIENT_ID,
       extraQueryParameters: 'nux=1&domain_hint=irsipr.com',
       redirectUri: 'http://localhost:3000/auth',
       disableRenewal: false,
