@@ -6,20 +6,18 @@ import SummariesTable from '../../components/SummariesTable';
 import AveragesTable from '../../components/AveragesTable';
 import ScreenHeader from '../../../../components/ScreenHeader';
 
-import { getDailySummary, getDailyAverageTimes } from '../../actions';
+import { getDailySummaryAndAverageTimes } from '../../actions';
 import { toggleSidebar } from '../../../UI/actions';
 
 class SpeedOfServiceDashboardScreen extends Component {
   static propTypes = {
     summaries: PropTypes.object,
     averages: PropTypes.object,
-    getDailySummary: PropTypes.func.isRequired,
-    getDailyAverageTimes: PropTypes.func.isRequired
+    getDailySummaryAndAverageTimes: PropTypes.func.isRequired,
   }
 
-  componentDidMount = async () => {
-    this.props.getDailySummary(Date.now());
-    this.props.getDailyAverageTimes(Date.now());
+  componentDidMount() {
+    this.props.getDailySummaryAndAverageTimes(Date.now());
   }
 
   render() {
@@ -43,8 +41,9 @@ class SpeedOfServiceDashboardScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  const { speedOfService } = state;
+  const { speedOfService, auth } = state;
   return {
+    access_token: auth.access_tokens.speedOfService,
     summaries: speedOfService.summaries,
     averages: speedOfService.averages
   }
@@ -52,8 +51,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getDailySummary: (date) => { dispatch(getDailySummary(date)); },
-    getDailyAverageTimes: (date) => { dispatch(getDailyAverageTimes(date)); },
+    getDailySummaryAndAverageTimes: (date) => { dispatch(getDailySummaryAndAverageTimes(date)); },
     toggleSidebar: () => { dispatch(toggleSidebar()) }
   }
 }

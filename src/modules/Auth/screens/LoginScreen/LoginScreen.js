@@ -1,24 +1,37 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
-import { AuthContextAdal } from '../../components/AuthProviderAdal/AuthProviderAdal';
+import AuthApi from '../../utils/AuthApi';
+import { login } from '../../actions';
 
 class LoginScreen extends Component {
+  handleLoginClick = () => {
+    this.props.login();
+  }
+
   render() {
-    return (
-      <AuthContextAdal.Consumer>
-        {
-          context => {
-            if (context.isAuthenticated()) {
-              const { state } = this.props.location;
-              return (<Redirect to={state.from.pathname} />)
-            } else {
-              context.login();
-            }
-          }
-        }
-      </AuthContextAdal.Consumer>
-    )
+    if (this.props.isAuthenticated()) {
+      const { state } = this.props.location;
+      return (<Redirect to={state.from.pathname} />);
+    } else {
+      return (<Button onClick={this.handleLoginClick}>Login</Button>);
+    }
   }
 }
 
-export default LoginScreen;
+const mapStateToProps = state => {
+  const { auth } = state;
+  return {
+    auth
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    isAuthenticated: () => AuthApi.isAuthenticated(),
+    login: () => dispatch(login())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
