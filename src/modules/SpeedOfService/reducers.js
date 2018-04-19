@@ -10,6 +10,7 @@ import {
 const initialState = {
   summaries: {
     isLoading: false,
+    keys: {},
     data: [],
     error: null
   },
@@ -28,6 +29,7 @@ export const speedOfService = (state = initialState, action) => {
         summaries: {
           ...state.summaries,
           isLoading: true,
+          keys: {},
           error: null
         }
       };
@@ -40,7 +42,8 @@ export const speedOfService = (state = initialState, action) => {
           summaries: {
             ...state.summaries,
             isLoading: false,
-            data: success ? data : [],
+            data: success ? data.records : [],
+            keys: success ? data.keys : {},
             error: success ? null : data
           }
         }
@@ -52,6 +55,7 @@ export const speedOfService = (state = initialState, action) => {
           ...state.summaries,
           isLoading: false,
           data: [],
+          keys: {},
           error: action.payload.error
         }
       }

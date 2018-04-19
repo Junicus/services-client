@@ -1,5 +1,6 @@
 import React from 'react';
-import { Alert } from 'reactstrap';
+import { Alert, Table } from 'reactstrap';
+import AveragesRow from './AveragesRow';
 
 const AveragesTable = ({ isLoading, data, error }) => {
   if (isLoading) {
@@ -22,7 +23,21 @@ const AveragesTable = ({ isLoading, data, error }) => {
   }
 
   if (data.length) {
-    <div>Averages Table with data</div>
+    return (
+      <Table borderless>
+        <thead>
+          <tr>
+            <th>Daypart</th>
+            <th>Average TT (m)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.map(record => <AveragesRow key={`${record.date}_${record.daypart}`} record={record} />)
+          }
+        </tbody>
+      </Table>
+    );
   }
   return (
     <div style={{

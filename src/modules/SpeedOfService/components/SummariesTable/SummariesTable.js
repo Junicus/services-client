@@ -1,7 +1,8 @@
 import React from 'react';
-import { Alert } from 'reactstrap';
+import { Alert, Table } from 'reactstrap';
+import SummariesRow from './SummariesRow';
 
-const SummariesTable = ({ isLoading, data, error }) => {
+const SummariesTable = ({ isLoading, keys, data, error }) => {
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -21,8 +22,25 @@ const SummariesTable = ({ isLoading, data, error }) => {
     );
   }
 
+  console.log(data);
   if (data.length) {
-    <div>Summaries Table with data</div>
+    return (
+      <Table>
+        <thead>
+          <tr>
+            <th>Daypart</th>
+            {
+              Object.keys(keys).map(key => <th key={key}>{keys[key]}</th>)
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.map(record => <SummariesRow key={`${record.date}_${record.daypart}`} record={record} />)
+          }
+        </tbody>
+      </Table>
+    );
   }
   return (
     <div style={{
