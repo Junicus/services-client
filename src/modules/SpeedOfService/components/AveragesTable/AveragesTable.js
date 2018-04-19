@@ -27,6 +27,7 @@ const AveragesTable = ({ isLoading, data, error }) => {
       <Table borderless>
         <thead>
           <tr>
+            <th>Date</th>
             <th>Daypart</th>
             <th>Average TT (m)</th>
           </tr>

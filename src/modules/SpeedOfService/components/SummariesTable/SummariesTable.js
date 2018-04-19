@@ -28,6 +28,7 @@ const SummariesTable = ({ isLoading, keys, data, error }) => {
       <Table>
         <thead>
           <tr>
+            <th>Date</th>
             <th>Daypart</th>
             {
               Object.keys(keys).map(key => <th key={key}>{keys[key]}</th>)
