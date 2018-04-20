@@ -54,18 +54,31 @@ class AuthApi {
 
   acquireToken = (endpoint) => {
     const endpointId = this._getEndpointId(endpoint);
+    console.log('authApi.acquireToken: ', endpoint);
     return new Promise((resolve, reject) => {
       this.authContext.acquireToken(endpointId, (message, token, error) => {
-        if (token) {
-          resolve(token);
+        if (error === 'login required') {
+          this.login()
+            .then(
+              user => this.acquireToken(endpoint)
+                .then(
+                  token => resolve(token),
+                  error => reject(error)
+                )
+            );
+          //reject({ error: { error, message } });
         } else {
-          this.authContext.acquireTokenPopup(endpointId, null, null, (message, token, error) => {
-            if (token) {
-              resolve(token);
-            } else {
-              reject({ error: { error, message } });
-            }
-          });
+          if (token) {
+            resolve(token);
+          } else {
+            this.authContext.acquireTokenPopup(endpointId, null, null, (message, token, error) => {
+              if (token) {
+                resolve(token);
+              } else {
+                reject({ error: { error, message } });
+              }
+            });
+          }
         }
       });
     });

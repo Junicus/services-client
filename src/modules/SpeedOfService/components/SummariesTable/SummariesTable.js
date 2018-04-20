@@ -22,7 +22,6 @@ const SummariesTable = ({ isLoading, keys, data, error }) => {
     );
   }
 
-  console.log(data);
   if (data.length) {
     return (
       <Table>
