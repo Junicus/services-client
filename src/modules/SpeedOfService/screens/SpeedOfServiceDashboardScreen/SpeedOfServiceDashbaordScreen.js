@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Label, Input } from 'reactstrap';
+import moment from 'moment';
 
 import SummariesTable from '../../components/SummariesTable';
 import AveragesTable from '../../components/AveragesTable';
@@ -16,8 +18,18 @@ class SpeedOfServiceDashboardScreen extends Component {
     getDailySummaryAndAverageTimes: PropTypes.func.isRequired,
   }
 
+  state = {
+    businessDate: moment().format('YYYY-MM-DD')
+  }
+
   componentDidMount() {
-    this.props.getDailySummaryAndAverageTimes(Date.now());
+    this.props.getDailySummaryAndAverageTimes(this.state.businessDate);
+  }
+
+  _handleBusinessDateChange = (e) => {
+    this.setState({
+      businessDate: e.target.value
+    }, () => this.props.getDailySummaryAndAverageTimes(this.state.businessDate));
   }
 
   render() {
@@ -27,11 +39,16 @@ class SpeedOfServiceDashboardScreen extends Component {
         <ScreenHeader title='Speed of Service' />
         <div>
           <section>
-            <header><h2>Summaries</h2></header>
+            <Label for='businessDate'>Business Date:</Label>
+            <Input type='date' id='businessDate' value={this.state.businessDate}
+              onChange={this._handleBusinessDateChange} />
+          </section>
+          <section>
+            <header>Summaries</header>
             <SummariesTable {...summaries} />
           </section>
           <section>
-            <header><h2>Averages</h2></header>
+            <header>Averages</header>
             <AveragesTable {...averages} />
           </section>
         </div>

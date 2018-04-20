@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
-import AuthApi from '../../utils/AuthApi';
+import { authApi } from '../../utils/AuthApi';
 import { login } from '../../actions';
 
 class LoginScreen extends Component {
@@ -29,7 +29,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    isAuthenticated: () => AuthApi.isAuthenticated(),
+    isAuthenticated: () => authApi.isAuthenticated(),
     login: () => dispatch(login())
   }
 }

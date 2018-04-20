@@ -1,4 +1,4 @@
-import AuthApi from './utils/AuthApi';
+import { authApi } from './utils/AuthApi';
 
 import {
   LOGIN_START,
@@ -14,7 +14,7 @@ import {
 export const login = () => {
   return dispatch => {
     dispatch(loginStart());
-    return AuthApi.login()
+    return authApi.login()
       .then(user => dispatch(loginSuccess(user)))
       .catch(error => dispatch(loginFailed(error)));
   }
@@ -37,7 +37,7 @@ export const loginFailed = (payload) => ({
 export const logout = () => {
   return dispatch => {
     dispatch(logoutStart());
-    AuthApi.logout()
+    authApi.logout()
       .then(() => dispatch(logoutSuccess()));
   }
 }
@@ -53,7 +53,7 @@ export const logoutSuccess = () => ({
 export const acquireToken = (endpoint) => {
   return dispatch => {
     dispatch(acquireTokenStart({ endpoint }));
-    return AuthApi.acquireToken(endpoint)
+    return authApi.acquireToken(endpoint)
       .then(token => dispatch(acquireTokenSuccess({ endpoint, token })))
       .catch(error => dispatch(acquireTokenFailed(error)));
   }

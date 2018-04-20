@@ -1,2 +1,2 @@
-import AuthApi from './AuthApi';
-export default AuthApi;
+import { authApi } from './AuthApi';
+export { authApi };

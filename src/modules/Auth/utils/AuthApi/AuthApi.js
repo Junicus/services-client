@@ -1,52 +1,46 @@
 import * as AuthenticationContext from './Lib/adal';
 
 class AuthApi {
-  static get endpoints() {
-    return {
-      speedOfService: process.env.REACT_APP_SPEEDOFSERVICE_API_ID
-    }
-  }
-
-  static get options() {
-    return {
+  constructor() {
+    this.endpoints = [
+      { speedOfService: process.env.REACT_APP_SPEEDOFSERVICE_API_ID }
+    ];
+    this.options = {
       clientId: process.env.REACT_APP_AZURE_CLIENT_ID,
       extraQueryParameters: 'nux=1&domain_hint=irsipr.com',
       redirectUri: 'http://localhost:3000/auth',
       disableRenewal: false,
       popUp: true,
-      endpoints: AuthApi.endpoints,
+      endpoints: this.endpoints,
       cacheLocation: 'localStorage',
     }
+    this.authContext = new AuthenticationContext(this.options);
   }
 
-  static get authContext() {
-    return new AuthenticationContext(AuthApi.options);
-  }
-
-  static login = () => {
+  login = () => {
     return new Promise((resolve, reject) => {
-      AuthApi.authContext.callback = (message, token, error) => {
+      this.authContext.callback = (message, token, error) => {
         if (token) {
-          const user = AuthApi.authContext.getCachedUser();
+          const user = this.authContext.getCachedUser();
           resolve(user);
         } else {
           reject({ error: { error, message } });
         }
       };
-      AuthApi.authContext.login();
-      AuthApi.authContext.callback = null;
+      this.authContext.login();
+      this.authContext.callback = null;
     });
   }
 
-  static logout = () => {
+  logout = () => {
     return Promise((resolve, reject) => {
-      AuthApi.authContext.logOut();
+      this.authContext.logOut();
       resolve();
     });
   }
 
-  static isAuthenticated = () => {
-    const user = AuthApi.authContext.getCachedUser();
+  isAuthenticated = () => {
+    const user = this.authContext.getCachedUser();
     if (user) {
       return true;
     } else {
@@ -54,14 +48,18 @@ class AuthApi {
     }
   }
 
-  static acquireToken = (endpoint) => {
-    console.log('at endpoint: ', endpoint);
+  _getEndpointId = (endpoint) => {
+    return this.endpoints.find(e => e.hasOwnProperty(endpoint))[endpoint];
+  }
+
+  acquireToken = (endpoint) => {
+    const endpointId = this._getEndpointId(endpoint);
     return new Promise((resolve, reject) => {
-      AuthApi.authContext.acquireToken(AuthApi.endpoints[endpoint], (message, token, error) => {
+      this.authContext.acquireToken(endpointId, (message, token, error) => {
         if (token) {
           resolve(token);
         } else {
-          AuthApi.authContext.acquireTokenPopup(AuthApi.endpoints[endpoint], null, null, (message, token, error) => {
+          this.authContext.acquireTokenPopup(endpointId, null, null, (message, token, error) => {
             if (token) {
               resolve(token);
             } else {
@@ -74,4 +72,4 @@ class AuthApi {
   }
 }
 
-export default AuthApi;
+export let authApi = new AuthApi();

@@ -5,7 +5,7 @@ const SummariesRow = ({ record }) => {
   return (
     <React.Fragment>
       <tr>
-        <td>{moment(Number(record.date)).format('l')}</td>
+        <td>{moment(record.date).format('l')}</td>
         <td>{record.daypart}</td>
         {
           Object.keys(record.summaries).map(summaryKey => <td key={`${record.date}_${record.daypart}_${summaryKey}`}>{record.summaries[summaryKey]}</td>)

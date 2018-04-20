@@ -24,7 +24,7 @@ const AveragesTable = ({ isLoading, data, error }) => {
 
   if (data.length) {
     return (
-      <Table borderless>
+      <Table>
         <thead>
           <tr>
             <th>Date</th>

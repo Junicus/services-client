@@ -6,162 +6,42 @@ import {
   FETCH_DAILYAVERAGETIMES_SUCCESS,
   FETCH_DAILYAVERAGETIMES_FAILURE
 } from './actionTypes';
-import { acquireToken } from '../Auth/actions';
+import { speedOfServiceApi } from './utils/speeOfServiceApi';
 
-const BASE_API = 'http://localhost:3001/api/speedOfService';
+export const getSummaryByDate = date => dispatch => {
+  dispatch(fetchDialySummaries());
+  return speedOfServiceApi.getSummariesByDate(date)
+    .then(
+      json => dispatch(fetchDailySummariesSuccess(json)),
+      error => dispatch(fetchDailySummariesFailure(error))
+    );
+}
 
-export const getDailySummary = (date) => {
-  return (dispatch) => {
-    return acquireToken('speedOfService')(dispatch)
-      .then(action => {
-        const { token } = action.payload;
-        dispatch(fetchDialySummaries());
-        fetch(`${BASE_API}/summaries?date=${date}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          }
-        })
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw {
-                error: {
-                  status: response.status,
-                  description: response.statusText
-                }
-              };
-            }
-          })
-          .then(json => dispatch(fetchDailySummariesSuccess(json)))
-          .catch(err => {
-            if (err.error) {
-              return dispatch(fetchDailySummariesFailure(err));
-            }
-            return dispatch(fetchDailySummariesFailure({
-              error: {
-                status: 500,
-                description: err.message
-              }
-            }))
-          });
-      });
-  }
-};
+export const getAverageTimesByDate = date => dispatch => {
+  dispatch(fetchDailyAverageTimes())
+  return speedOfServiceApi.getAverageTimesByDate(date)
+    .then(
+      json => dispatch(fetchDailyAverageTimesSuccess(json)),
+      error => dispatch(fetchDailyAverageTimesFailure(error))
+    );
+}
 
-export const getDailyAverageTimes = (date) => {
-  return (dispatch) => {
-    return acquireToken('speedOfService')(dispatch)
-      .then(
-        action => {
-          const { token } = action.payload;
-          if (token) {
-            dispatch(fetchDailyAverageTimes());
-            fetch(`${BASE_API}/averages?date=${date}`, {
-              method: 'GET', headers: {
-                'Authorization': `Bearer ${token}`,
-              }
-            })
-              .then(response => {
-                if (response.ok) {
-                  return response.json();
-                } else {
-                  throw {
-                    error: {
-                      status: response.status,
-                      description: response.statusText
-                    }
-                  };
-                }
-              })
-              .then(json => dispatch(fetchDailyAverageTimesSuccess(json)))
-              .catch(err => {
-                if (err.error) {
-                  return dispatch(fetchDailyAverageTimesFailure(err));
-                }
-                return dispatch(fetchDailyAverageTimesFailure({
-                  error: {
-                    status: 500,
-                    description: err.message
-                  }
-                }));
-              });
-          }
-        });
-  }
-};
+export const getDailySummaryAndAverageTimes = date => dispatch => {
+  dispatch(fetchDialySummaries());
+  dispatch(fetchDailyAverageTimes());
 
-export const getDailySummaryAndAverageTimes = (date) => {
-  return dispatch => {
-    dispatch(fetchDialySummaries());
-    dispatch(fetchDailyAverageTimes());
-    return acquireToken('speedOfService')(dispatch)
-      .then(action => {
-        const { token } = action.payload;
-
-        fetch(`${BASE_API}/summaries?date=${date}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          }
-        })
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw {
-                error: {
-                  status: response.status,
-                  description: response.statusText
-                }
-              };
-            }
-          })
-          .then(json => dispatch(fetchDailySummariesSuccess(json)))
-          .catch(err => {
-            if (err.error) {
-              return dispatch(fetchDailySummariesFailure(err));
-            }
-            return dispatch(fetchDailySummariesFailure({
-              error: {
-                status: 500,
-                description: err.message
-              }
-            }))
-          });
-
-        fetch(`${BASE_API}/averages?date=${date}`, {
-          method: 'GET', headers: {
-            'Authorization': `Bearer ${token}`,
-          }
-        })
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw {
-                error: {
-                  status: response.status,
-                  description: response.statusText
-                }
-              };
-            }
-          })
-          .then(json => dispatch(fetchDailyAverageTimesSuccess(json)))
-          .catch(err => {
-            if (err.error) {
-              return dispatch(fetchDailyAverageTimesFailure(err));
-            }
-            return dispatch(fetchDailyAverageTimesFailure({
-              error: {
-                status: 500,
-                description: err.message
-              }
-            }));
-          });
-      });
-  }
+  return speedOfServiceApi.getSummariesByDate(date)
+    .then(
+      json => dispatch(fetchDailySummariesSuccess(json)),
+      error => dispatch(fetchDailySummariesFailure(error))
+    )
+    .then(
+      () => speedOfServiceApi.getAverageTimesByDate(date)
+        .then(
+          json => dispatch(fetchDailyAverageTimesSuccess(json)),
+          error => dispatch(fetchDailyAverageTimesFailure(error))
+        )
+    );
 }
 
 const fetchDialySummaries = () => ({

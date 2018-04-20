@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import AuthApi from '../../utils/AuthApi';
+import { authApi } from '../../utils/AuthApi';
 
 const PrivateRoute = ({ component: Component, ...props }) => {
   if (props.isAuthenticated()) {
@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    isAuthenticated: () => AuthApi.isAuthenticated()
+    isAuthenticated: () => authApi.isAuthenticated()
   }
 }
 
