@@ -18,8 +18,7 @@ class SpeedOfServiceApi {
           if (res.ok) {
             return res.json();
           } else {
-            const error = { status: res.status, message: res.statusText };
-            throw { error };
+            throw new Error({ status: res.status, message: res.statusText });
           }
         });
     });
@@ -37,8 +36,7 @@ class SpeedOfServiceApi {
           if (res.ok) {
             return res.json();
           } else {
-            const error = { status: res.status, message: res.statusText };
-            throw { error };
+            throw new Error({ status: res.status, message: res.statusText });
           }
         });
     });

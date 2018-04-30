@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { authApi } from '../../utils/AuthApi';
 
 const PrivateRoute = ({ component: Component, ...props }) => {
