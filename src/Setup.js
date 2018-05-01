@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
 import configureStore from './redux/configureStore';
 import App from './App';
 
@@ -13,7 +13,9 @@ class Setup extends Component {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <App />
+          <React.Fragment>
+            <App />
+          </React.Fragment>
         </ConnectedRouter>
       </Provider>
     );

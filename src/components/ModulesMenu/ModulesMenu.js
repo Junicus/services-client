@@ -13,7 +13,7 @@ const moduleLinks = [{
 class ModulesMenu extends Component {
   getModuleLinks = () => {
     return moduleLinks.filter(link => {
-      return link.to !== this.props.location.pathname
+      return link.to === '/' ? true : !this.props.location.pathname.startsWith(link.to);
     });
   }
 
