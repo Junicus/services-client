@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import PrivateRoute from './modules/Auth/components/PrivateRoute';
 import SidebarRouter from './components/SidebarRouter';
 import MainRouter from './components/MainRouter';
+
+import HomeScreen from './modules/Home/screens/HomeScreen';
 
 class App extends Component {
   render() {
     return (
-      <div style={{ display: 'flex' }}>
-        <SidebarRouter />
-        <div style={{ flexGrow: 1 }}>
-          <MainRouter />
-        </div>
-      </div>
+      <Switch>
+        <Route path='/' exact component={HomeScreen} />
+        <Route render={
+          () => (
+            <div style={{ display: 'flex' }}>
+              <SidebarRouter />
+              <div style={{ flexGrow: 1 }}>
+                <MainRouter />
+              </div>
+            </div>
+          )} />
+      </Switch >
     );
   }
 }

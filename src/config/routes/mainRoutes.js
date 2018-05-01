@@ -3,12 +3,6 @@ import SpeedOfServiceScreen from '../../modules/SpeedOfService/screens/SpeedOfSe
 import LoginScreen from '../../modules/Auth/screens/LoginScreen';
 
 export default [{
-  title: 'Home',
-  path: '/',
-  exact: true,
-  component: HomeScreen,
-  private: false,
-}, {
   title: 'Speed of Service',
   path: '/speedofservice',
   exact: false,
