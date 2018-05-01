@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 import { sidebarRoutes } from '../../config/routes';
 

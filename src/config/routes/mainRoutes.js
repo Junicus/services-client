@@ -1,4 +1,3 @@
-import HomeScreen from '../../modules/Home/screens/HomeScreen';
 import SpeedOfServiceScreen from '../../modules/SpeedOfService/screens/SpeedOfServiceScreen';
 import LoginScreen from '../../modules/Auth/screens/LoginScreen';
 
