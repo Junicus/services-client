@@ -18,11 +18,12 @@ class SpeedOfServiceDashboardScreen extends Component {
     summaries: PropTypes.object,
     averages: PropTypes.object,
     setDashboardBusinessDateSelection: PropTypes.func.isRequired,
-    getDailySummaryAndAverageTimes: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
-    this.props.setDashboardBusinessDateSelection(moment().format('YYYY-MM-DD'));
+    if (this.props.businessDate === null) {
+      this.props.setDashboardBusinessDateSelection(moment().format('YYYY-MM-DD'));
+    }
   }
 
   _handleBusinessDateChange = (e) => {
@@ -46,7 +47,6 @@ const mapStateToProps = state => {
   const { speedOfService, auth } = state;
   return {
     businessDate: speedOfService.dashboard.businessDate,
-    access_token: auth.access_tokens.speedOfService,
     summaries: speedOfService.dashboard.summaries,
     averages: speedOfService.dashboard.averages
   }
@@ -55,7 +55,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setDashboardBusinessDateSelection: date => { dispatch(setDashboardBusinessDateSelection(date)); },
-    getDailySummaryAndAverageTimes: (date) => { dispatch(getDailySummaryAndAverageTimes(date)); },
     toggleSidebar: () => { dispatch(toggleSidebar()) }
   }
 }

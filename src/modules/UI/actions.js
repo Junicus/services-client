@@ -16,9 +16,3 @@ export const hideSidebar = () => ({
 export const toggleSidebar = () => ({
   type: TOGGLE_SIDEBAR
 });
-
-export const setModuleInfo = (payload) => ({
-  type: SET_MODULE_INFO,
-  payload
-});
-
