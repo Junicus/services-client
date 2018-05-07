@@ -4,9 +4,40 @@ import {
   FETCH_DAILYSUMMARIES_FAILURE,
   FETCH_DAILYAVERAGETIMES,
   FETCH_DAILYAVERAGETIMES_SUCCESS,
-  FETCH_DAILYAVERAGETIMES_FAILURE
+  FETCH_DAILYAVERAGETIMES_FAILURE,
+  SET_BUSINESSDATE_SELECTION,
+  FETCH_DASHBOARD_SUMMARIES,
+  FETCH_DASHBOARD_SUMMARIES_SUCCESS,
+  FETCH_DASHBOARD_SUMMARIES_FAILURE,
+  FETCH_DASHBOARD_AVERAGES,
+  FETCH_DASHBOARD_AVERAGES_SUCCESS,
+  FETCH_DASHBOARD_AVERAGES_FAILURE,
 } from './actionTypes';
 import { speedOfServiceApi } from './utils/speeOfServiceApi';
+
+export const setDashboardBusinessDateSelection = date => dispatch => {
+  dispatch({ type: SET_BUSINESSDATE_SELECTION, payload: date });
+  dispatch(getDashboardSummaries(date));
+  dispatch(getDashboardAverages(date));
+}
+
+export const getDashboardSummaries = date => dispatch => {
+  dispatch({ type: FETCH_DASHBOARD_SUMMARIES });
+  return speedOfServiceApi.getSummariesByDate(date)
+    .then(
+      json => dispatch({ type: FETCH_DASHBOARD_SUMMARIES_SUCCESS, payload: json }),
+      error => dispatch({ type: FETCH_DASHBOARD_SUMMARIES_FAILURE, payload: error })
+    );
+}
+
+export const getDashboardAverages = date => dispatch => {
+  dispatch({ type: FETCH_DASHBOARD_AVERAGES });
+  return speedOfServiceApi.getAverageTimesByDate(date)
+    .then(
+      json => dispatch({ type: FETCH_DASHBOARD_AVERAGES_SUCCESS, payload: json }),
+      error => dispatch({ type: FETCH_DASHBOARD_AVERAGES_FAILURE, payload: error })
+    );
+}
 
 export const getSummaryByDate = date => dispatch => {
   dispatch(fetchDialySummaries());

@@ -1,13 +1,19 @@
+import { combineReducers } from 'redux';
 import {
-  FETCH_DAILYSUMMARIES,
-  FETCH_DAILYAVERAGETIMES,
-  FETCH_DAILYSUMMARIES_FAILURE,
-  FETCH_DAILYAVERAGETIMES_FAILURE,
-  FETCH_DAILYSUMMARIES_SUCCESS,
-  FETCH_DAILYAVERAGETIMES_SUCCESS
+  SET_BUSINESSDATE_SELECTION,
+  FETCH_DASHBOARD_SUMMARIES,
+  FETCH_DASHBOARD_SUMMARIES_SUCCESS,
+  FETCH_DASHBOARD_SUMMARIES_FAILURE,
+  FETCH_DASHBOARD_AVERAGES,
+  FETCH_DASHBOARD_AVERAGES_SUCCESS,
+  FETCH_DASHBOARD_AVERAGES_FAILURE
 } from "./actionTypes";
 
 const initialState = {
+}
+
+const dashInitialState = {
+  businessDate: null,
   summaries: {
     isLoading: false,
     keys: {},
@@ -21,22 +27,27 @@ const initialState = {
   }
 }
 
-export const speedOfService = (state = initialState, action) => {
+const dashboard = (state = dashInitialState, action) => {
   switch (action.type) {
-    case FETCH_DAILYSUMMARIES:
+    case SET_BUSINESSDATE_SELECTION:
+      return {
+        ...state,
+        businessDate: action.payload
+      }
+    case FETCH_DASHBOARD_SUMMARIES:
       return {
         ...state,
         summaries: {
           ...state.summaries,
           isLoading: true,
+          data: [],
           keys: {},
           error: null
         }
-      };
-    case FETCH_DAILYSUMMARIES_SUCCESS:
+      }
+    case FETCH_DASHBOARD_SUMMARIES_SUCCESS:
       {
-        const { payload } = action;
-        const { success, data } = payload;
+        const { success, data } = action.payload;
         return {
           ...state,
           summaries: {
@@ -48,7 +59,7 @@ export const speedOfService = (state = initialState, action) => {
           }
         }
       }
-    case FETCH_DAILYSUMMARIES_FAILURE:
+    case FETCH_DASHBOARD_SUMMARIES_FAILURE:
       return {
         ...state,
         summaries: {
@@ -59,19 +70,19 @@ export const speedOfService = (state = initialState, action) => {
           error: action.payload.error
         }
       }
-    case FETCH_DAILYAVERAGETIMES:
+    case FETCH_DASHBOARD_AVERAGES:
       return {
         ...state,
         averages: {
           ...state.averages,
           isLoading: true,
+          data: [],
           error: null
         }
-      };
-    case FETCH_DAILYAVERAGETIMES_SUCCESS:
+      }
+    case FETCH_DASHBOARD_AVERAGES_SUCCESS:
       {
-        const { payload } = action;
-        const { success, data } = payload;
+        const { success, data } = action.payload;
         return {
           ...state,
           averages: {
@@ -82,12 +93,13 @@ export const speedOfService = (state = initialState, action) => {
           }
         }
       }
-    case FETCH_DAILYAVERAGETIMES_FAILURE:
+    case FETCH_DASHBOARD_AVERAGES_FAILURE:
       return {
         ...state,
         averages: {
           ...state.averages,
           isLoading: false,
+          data: [],
           error: action.payload.error
         }
       }
@@ -95,3 +107,12 @@ export const speedOfService = (state = initialState, action) => {
       return state;
   }
 }
+
+const speedOfService = (state = initialState, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({ speedOfService, dashboard });

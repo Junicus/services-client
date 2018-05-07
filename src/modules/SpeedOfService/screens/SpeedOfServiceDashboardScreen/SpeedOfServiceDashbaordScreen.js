@@ -4,32 +4,29 @@ import { connect } from 'react-redux';
 import { Label, Input } from 'reactstrap';
 import moment from 'moment';
 
-import SummariesTable from '../../components/SummariesTable';
-import AveragesTable from '../../components/AveragesTable';
 import ScreenHeader from '../../../../components/ScreenHeader';
 
-import { getDailySummaryAndAverageTimes } from '../../actions';
+import { setDashboardBusinessDateSelection, getDailySummaryAndAverageTimes } from '../../actions';
 import { toggleSidebar } from '../../../UI/actions';
+import BusinessDateSelector from '../../components/BusinessDateSelector/BusinessDateSelector';
+import AveragesDashboardSection from '../../components/AveragesDashboardSection';
+import SummaryDashboardSection from '../../components/SummaryDashboardSection';
 
 class SpeedOfServiceDashboardScreen extends Component {
   static propTypes = {
+    businessDate: PropTypes.string,
     summaries: PropTypes.object,
     averages: PropTypes.object,
+    setDashboardBusinessDateSelection: PropTypes.func.isRequired,
     getDailySummaryAndAverageTimes: PropTypes.func.isRequired,
   }
 
-  state = {
-    businessDate: moment().format('YYYY-MM-DD')
-  }
-
   componentDidMount() {
-    this.props.getDailySummaryAndAverageTimes(this.state.businessDate);
+    this.props.setDashboardBusinessDateSelection(moment().format('YYYY-MM-DD'));
   }
 
   _handleBusinessDateChange = (e) => {
-    this.setState({
-      businessDate: e.target.value
-    }, () => this.props.getDailySummaryAndAverageTimes(this.state.businessDate));
+    this.props.setDashboardBusinessDateSelection(e.target.value);
   }
 
   render() {
@@ -37,19 +34,9 @@ class SpeedOfServiceDashboardScreen extends Component {
     return (
       <React.Fragment>
         <ScreenHeader title='Speed of Service' />
-        <section>
-          <Label for='businessDate'>Business Date:</Label>
-          <Input type='date' id='businessDate' value={this.state.businessDate}
-            onChange={this._handleBusinessDateChange} />
-        </section>
-        <section>
-          <header>Summaries</header>
-          <SummariesTable {...summaries} />
-        </section>
-        <section>
-          <header>Averages</header>
-          <AveragesTable {...averages} />
-        </section>
+        <BusinessDateSelector value={this.props.businessDate} onChange={this._handleBusinessDateChange} />
+        <SummaryDashboardSection summaries={summaries} />
+        <AveragesDashboardSection averages={averages} />
       </React.Fragment>
     );
   }
@@ -58,14 +45,16 @@ class SpeedOfServiceDashboardScreen extends Component {
 const mapStateToProps = state => {
   const { speedOfService, auth } = state;
   return {
+    businessDate: speedOfService.dashboard.businessDate,
     access_token: auth.access_tokens.speedOfService,
-    summaries: speedOfService.summaries,
-    averages: speedOfService.averages
+    summaries: speedOfService.dashboard.summaries,
+    averages: speedOfService.dashboard.averages
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    setDashboardBusinessDateSelection: date => { dispatch(setDashboardBusinessDateSelection(date)); },
     getDailySummaryAndAverageTimes: (date) => { dispatch(getDailySummaryAndAverageTimes(date)); },
     toggleSidebar: () => { dispatch(toggleSidebar()) }
   }
