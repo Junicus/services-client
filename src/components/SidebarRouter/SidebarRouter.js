@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom';
 
 import { sidebarRoutes } from '../../config/routes';
 
+import { StyledSidebar } from './styles';
+
 const SidebarRouter = () => {
   const renderRoutes = () => {
     return sidebarRoutes.map(route => {
@@ -11,11 +13,11 @@ const SidebarRouter = () => {
   }
 
   return (
-    <div>
+    <StyledSidebar>
       {
         renderRoutes()
       }
-    </div>
+    </StyledSidebar>
   );
 }
 

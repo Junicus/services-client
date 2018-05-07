@@ -35,24 +35,22 @@ class SpeedOfServiceDashboardScreen extends Component {
   render() {
     const { summaries, averages } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <ScreenHeader title='Speed of Service' />
-        <div>
-          <section>
-            <Label for='businessDate'>Business Date:</Label>
-            <Input type='date' id='businessDate' value={this.state.businessDate}
-              onChange={this._handleBusinessDateChange} />
-          </section>
-          <section>
-            <header>Summaries</header>
-            <SummariesTable {...summaries} />
-          </section>
-          <section>
-            <header>Averages</header>
-            <AveragesTable {...averages} />
-          </section>
-        </div>
-      </div>
+        <section>
+          <Label for='businessDate'>Business Date:</Label>
+          <Input type='date' id='businessDate' value={this.state.businessDate}
+            onChange={this._handleBusinessDateChange} />
+        </section>
+        <section>
+          <header>Summaries</header>
+          <SummariesTable {...summaries} />
+        </section>
+        <section>
+          <header>Averages</header>
+          <AveragesTable {...averages} />
+        </section>
+      </React.Fragment>
     );
   }
 }

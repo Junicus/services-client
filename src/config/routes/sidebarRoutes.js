@@ -1,5 +1,5 @@
 import ModulesMenu from '../../components/ModulesMenu';
-import SpeedOfServiceMenu from '../../modules/SpeedOfService/screens/SpeedOfServiceMenu';
+import SpeedOfServiceMenu from '../../modules/SpeedOfService/components/SpeedOfServiceMenu';
 
 export default [{
   path: '/',

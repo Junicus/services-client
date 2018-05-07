@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Nav, NavItem } from 'reactstrap';
 import { withRouter, Link } from 'react-router-dom';
+import SidebarSection from '../SidebarSection';
 
 const moduleLinks = [{
   to: '/',
@@ -17,28 +18,12 @@ class ModulesMenu extends Component {
     });
   }
 
-  renderModuleLinks = () => {
-    const links = this.getModuleLinks();
-    return links.map(link =>
-      <NavItem key={link.to}>
-        <Link to={link.to}>{link.title}</Link>
-      </NavItem>
-    );
-  }
-
   render() {
     const links = this.getModuleLinks();
 
     if (links && links.length) {
       return (
-        <div>
-          <p>Modules</p>
-          <Nav>
-            {
-              this.renderModuleLinks()
-            }
-          </Nav>
-        </div>
+        <SidebarSection title='Modules' links={links} />
       );
     } else {
       return null;

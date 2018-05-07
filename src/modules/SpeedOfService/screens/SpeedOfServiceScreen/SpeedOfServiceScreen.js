@@ -6,43 +6,19 @@ import { Switch, Route } from 'react-router-dom';
 import SpeedOfServiceDashboardScreen from '../SpeedOfServiceDashboardScreen';
 import SpeedOfServiceReportsScreen from '../SpeedOfServiceReportsScreen';
 import { showSidebar, setModuleInfo } from '../../../UI/actions';
+import ContentWrapper from '../../../../components/ContentWrapper/ContentWrapper';
 
 class SpeedOfServiceScreen extends Component {
-  static propTypes = {
-    setModuleInfo: PropTypes.func.isRequired
-  }
-
-  componentDidMount = () => {
-    this.props.setModuleInfo({
-      title: 'Speed of Service',
-      links: [
-        { to: '/speedofservice', title: 'Dashboard' },
-        { to: '/speedofservice/reports', title: 'Reports' }
-      ]
-    });
-  }
-
   render() {
     return (
-      <div style={{ margin: 15 }}>
+      <ContentWrapper>
         <Switch>
           <Route exact path='/speedofservice' component={SpeedOfServiceDashboardScreen} />
           <Route exact path='/speedofservice/reports' component={SpeedOfServiceReportsScreen} />
         </Switch>
-      </div>
+      </ContentWrapper>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-}
-
-const mapDispatchToProps = dispatch => {
-  dispatch(showSidebar());
-  return {
-    setModuleInfo: (payload) => dispatch(setModuleInfo(payload))
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SpeedOfServiceScreen);
+export default SpeedOfServiceScreen;
