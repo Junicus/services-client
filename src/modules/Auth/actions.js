@@ -1,75 +1,66 @@
-import { authApi } from './utils/AuthApi';
-
 import {
-  LOGIN_START,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
-  ACQUIRE_TOKEN_START,
-  ACQUIRE_TOKEN_SUCCESS,
-  ACQUIRE_TOKEN_FAILED,
-  LOGOUT_SUCCESS,
-  LOGOUT_START,
+  MSAL_SIGNIN_PENDING,
+  MSAL_SIGNIN_SUCCESS,
+  MSAL_SIGNIN_FAILURE,
+  MSAL_ACQUIRE_TOKEN_PENDING,
+  MSAL_ACQUIRE_TOKEN_SUCCESS,
+  MSAL_ACQUIRE_TOKEN_FAILURE,
+  MSAL_SIGNOUT
 } from './actionTypes';
+import authService from './service';
 
-export const login = () => {
-  return dispatch => {
-    dispatch(loginStart());
-    return authApi.login()
-      .then(user => dispatch(loginSuccess(user)))
-      .catch(error => dispatch(loginFailed(error)));
+const setSignInPending = () => ({
+  type: MSAL_SIGNIN_PENDING
+});
+
+const setSignInSuccess = user => ({
+  type: MSAL_SIGNIN_SUCCESS,
+  payload: { user }
+});
+
+const setSignInFailure = error => ({
+  type: MSAL_SIGNIN_FAILURE,
+  payload: { error }
+});
+
+export const signIn = () => async dispatch => {
+  dispatch(setSignInPending());
+  try {
+    const user = await authService.signIn();
+    dispatch(setSignInSuccess(user));
+  } catch (error) {
+    dispatch(setSignInFailure(error));
   }
 }
 
-export const loginStart = () => ({
-  type: LOGIN_START
+const setAcquireScopeTokenPending = scope => ({
+  type: MSAL_ACQUIRE_TOKEN_PENDING,
+  payload: { scope }
 });
 
-export const loginSuccess = (payload) => ({
-  type: LOGIN_SUCCESS,
-  payload
+const setAcquireScopeTokenSuccess = (scope, token) => ({
+  type: MSAL_ACQUIRE_TOKEN_SUCCESS,
+  payload: { scope, token }
 });
 
-export const loginFailed = (payload) => ({
-  type: LOGIN_FAILED,
-  payload
+const setAcquireScopeTokenFailure = (scope, error) => ({
+  type: MSAL_ACQUIRE_TOKEN_FAILURE,
+  payload: { scope, error }
 });
 
-export const logout = () => {
-  return dispatch => {
-    dispatch(logoutStart());
-    authApi.logout()
-      .then(() => dispatch(logoutSuccess()));
+export const getAcquireScopeToken = scope => async dispatch => {
+  dispatch(setAcquireScopeTokenPending(scope));
+  try {
+    const token = await authService.acquireToken(scope);
+    dispatch(setAcquireScopeTokenSuccess(scope, token));
+  } catch (error) {
+    dispatch(setAcquireScopeTokenFailure(scope, error));
   }
 }
 
-export const logoutStart = () => ({
-  type: LOGOUT_START
-});
-
-export const logoutSuccess = () => ({
-  type: LOGOUT_SUCCESS
-});
-
-export const acquireToken = (endpoint) => {
-  return dispatch => {
-    dispatch(acquireTokenStart({ endpoint }));
-    return authApi.acquireToken(endpoint)
-      .then(token => dispatch(acquireTokenSuccess({ endpoint, token })))
-      .catch(error => dispatch(acquireTokenFailed(error)));
-  }
+export const signOut = () => {
+  authService.signOut();
+  return {
+    type: MSAL_SIGNOUT
+  };
 }
-
-export const acquireTokenStart = (payload) => ({
-  type: ACQUIRE_TOKEN_START,
-  payload
-});
-
-export const acquireTokenSuccess = (payload) => ({
-  type: ACQUIRE_TOKEN_SUCCESS,
-  payload
-});
-
-export const acquireTokenFailed = (payload) => ({
-  type: ACQUIRE_TOKEN_FAILED,
-  payload
-});

@@ -1,84 +1,75 @@
 import {
-  LOGIN_START,
-  ON_ACQUIRE_TOKEN,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
-  ACQUIRE_TOKEN_START,
-  ACQUIRE_TOKEN_SUCCESS,
-  ACQUIRE_TOKEN_FAILED,
+  MSAL_SIGNIN_PENDING,
+  MSAL_SIGNIN_SUCCESS,
+  MSAL_SIGNIN_FAILURE,
+  MSAL_ACQUIRE_TOKEN_PENDING,
+  MSAL_ACQUIRE_TOKEN_SUCCESS,
+  MSAL_ACQUIRE_TOKEN_FAILURE,
+  MSAL_SIGNOUT
 } from './actionTypes';
 
-const initialState = {
-  isLoggingIn: false,
-  isAcquiringToken: false,
+const authInitialState = {
+  isSigningIn: false,
+  isSigningInErr: false,
   user: null,
-  access_tokens: {},
-  loginError: null,
-  acquireTokenError: null,
+  tokens: {}
 }
 
-export const auth = (state = initialState, action) => {
+const auth = (state = authInitialState, action) => {
   switch (action.type) {
-    case LOGIN_START:
+    case MSAL_SIGNIN_PENDING:
       return {
         ...state,
-        isLoggingIn: true,
-        user: null,
-        loginError: null
+        isSigningIn: true,
+        isSigningInErr: false,
       }
-    case LOGIN_SUCCESS:
+    case MSAL_SIGNIN_SUCCESS:
       return {
         ...state,
-        isLoggingIn: false,
-        user: action.payload,
-        loginError: null,
+        isSigningIn: false,
+        isSigningInErr: false,
+        user: action.payload.user
       }
-    case LOGIN_FAILED:
+    case MSAL_SIGNIN_FAILURE:
       return {
         ...state,
-        isLoggingIn: false,
-        user: null,
-        loginError: action.payload.error
+        isSigningIn: false,
+        isSigningInErr: true,
+        user: null
       }
-    case ACQUIRE_TOKEN_START:
+    case MSAL_ACQUIRE_TOKEN_PENDING:
       return {
         ...state,
-        isAcquiringToken: true,
-        access_tokens: {
-          ...state.access_tokens,
-          [action.payload.endpoint]: null
-        },
-        acquireTokenError: null
-      }
-    case ACQUIRE_TOKEN_SUCCESS:
-      return {
-        ...state,
-        isAcquiringToken: false,
-        access_tokens: {
-          ...state.access_tokens,
-          [action.payload.endpoint]: action.payload.token
-        },
-        acquireTokenError: null,
-      }
-    case ACQUIRE_TOKEN_FAILED:
-      return {
-        ...state,
-        isAcquiringToken: false,
-        access_tokens: {
-          ...state.access_tokens,
-          [action.payload.endpoint]: null
-        },
-        acquireTokenError: action.payload.error
-      }
-    case ON_ACQUIRE_TOKEN:
-      return {
-        ...state,
-        access_tokens: {
-          ...state.access_tokens,
-          [action.payload.endpoint]: action.payload.token
+        tokens: {
+          ...state.tokens,
+          [action.payload.scope]: { loading: true, token: null }
         }
+      }
+    case MSAL_ACQUIRE_TOKEN_SUCCESS:
+      return {
+        ...state,
+        tokens: {
+          ...state.tokens,
+          [action.payload.scope]: { loading: false, token: action.payload.token }
+        }
+      }
+    case MSAL_ACQUIRE_TOKEN_FAILURE:
+      return {
+        ...state,
+        tokens: {
+          ...state.tokens,
+          [action.payload.scope]: { loading: false, error: action.payload.error }
+        }
+      }
+    case MSAL_SIGNOUT:
+      return {
+        ...state,
+        user: null,
+        tokens: {}
       }
     default:
       return state;
   }
 }
+
+export default auth;

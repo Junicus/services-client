@@ -1,27 +1,20 @@
 import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { authApi } from '../../utils/AuthApi';
 
-const PrivateRoute = ({ component: Component, ...props }) => {
-  if (props.isAuthenticated()) {
-    return (<Component {...props} />);
+const PrivateRoute = (props) => {
+  const { user } = props;
+  if (user) {
+    return <Route {...props} />
   } else {
-    return (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />);
+    return <Redirect to={{ pathname: '/signIn', state: { from: props.location.pathname } }} />;
   }
 }
 
 const mapStateToProps = state => {
-  const { auth } = state;
   return {
-    auth
+    user: state.auth.user
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    isAuthenticated: () => authApi.isAuthenticated()
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+export default connect(mapStateToProps)(PrivateRoute);

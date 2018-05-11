@@ -1,10 +1,9 @@
-export const LOGIN_START = 'auth/LOGIN_START';
-export const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
-export const LOGIN_FAILED = 'auth/LOGIN_FAILED';
-export const LOGOUT_START = 'auth/LOGOUT_START';
-export const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
-export const ACQUIRE_TOKEN_START = 'auth/ACQUIRE_TOKEN_START';
-export const ACQUIRE_TOKEN_SUCCESS = 'auth/ACQUIRE_TOKEN_SUCCESS';
-export const ACQUIRE_TOKEN_FAILED = 'auth/ACQUIRE_TOKEN_FAILED';
+export const MSAL_SIGNIN_PENDING = '@@msal/SIGNIN_PENDING';
+export const MSAL_SIGNIN_SUCCESS = '@@msal/SIGNIN_SUCCESS';
+export const MSAL_SIGNIN_FAILURE = '@@msal/SIGNIN_FAILURE';
 
-export const ON_ACQUIRE_TOKEN = 'auth/ON_ACQUIRE_TOKEN';
+export const MSAL_ACQUIRE_TOKEN_PENDING = '@@msal/ACQUIRE_TOKEN_PENDING';
+export const MSAL_ACQUIRE_TOKEN_SUCCESS = '@@msal/ACQUIRE_TOKEN_SUCCESS';
+export const MSAL_ACQUIRE_TOKEN_FAILURE = '@@msal/ACQUIRE_TOKEN_FAILURE';
+
+export const MSAL_SIGNOUT = '@@msal/SIGNOUT';

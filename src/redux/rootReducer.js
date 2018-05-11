@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import { auth } from '../modules/Auth/reducers';
-import { ui } from '../modules/UI/reducers';
-import speedOfService from '../modules/SpeedOfService/reducers';
+import auth from '../modules/auth/reducers';
+import { ui } from '../modules/ui/reducers';
+// import speedOfService from '../modules/speedOfService/reducers';
 
 const rootReducer = combineReducers({
   auth,
   ui,
-  speedOfService,
+  // speedOfService,
   router: routerReducer
 });
 
