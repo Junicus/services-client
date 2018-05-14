@@ -44,10 +44,10 @@ class AuthService {
 
   acquireToken = async scope => {
     try {
-      return await this.app.acquireTokenSilent(scope);
+      return await this.app.acquireTokenSilent([scope]);
     } catch (error) {
       try {
-        return await this.app.acquireTokenPopup(scope);
+        return await this.app.acquireTokenPopup([scope]);
       } catch (err) {
         console.log(err);
         throw new Error({ error: err });
